@@ -2,10 +2,28 @@ import java.util.*;
 import java.io.*;
 public class Maze{
 
-
+    private Move[] moves = new Move[4];
     private char[][]maze;
     private boolean animate;//false by default
     private Scanner file;
+
+    private class Move{
+      int x;
+      int y;
+      public Move(int a, int b){
+        x = a;
+        y = b;
+      }
+    }
+
+    public static void main(String[] args){
+      try {
+        Maze test = new Maze("data1.dat");
+        System.out.println(test.toString());
+      } catch (FileNotFoundException e){
+        System.out.println("need valid filename");
+      }
+    }
 
     /*Constructor loads a maze text file, and sets animate to false by default.
 
@@ -27,12 +45,11 @@ public class Maze{
 
     public Maze(String filename) throws FileNotFoundException{
         //COMPLETE CONSTRUCTOR
-        try {
           file = new Scanner(filename);
-          int a = 0;
+          int a = -1;
           while (file.hasNextLine()){
             a++;
-            file.nextLine()
+            file.nextLine();
           }
           file = new Scanner(filename);
           String n = file.nextLine();
@@ -44,8 +61,10 @@ public class Maze{
             }
             n = file.nextLine();
           }
-
-        }
+          moves[0] = new Move(1, 0);
+          moves[1] = new Move(-1, 0);
+          moves[2] = new Move(0, 1);
+          moves[3] = new Move(0, -1);
     }
 
 
@@ -84,8 +103,14 @@ public class Maze{
 
     */
     public String toString(){
-
-            return "WRITE THIS METHOD";
+      String result = "";
+      for (int i = 0; i < maze.length; i++){
+        for (int j = 0; j < maze[0].length; j++){
+          result += maze[i][j];
+        }
+        result += "\n";
+      }
+      return result;
 
     }
 
@@ -108,6 +133,7 @@ public class Maze{
             //and start solving at the location of the s.
 
             //return solve(???,???);
+            return 1;
 
     }
 
