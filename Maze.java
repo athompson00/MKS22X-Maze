@@ -129,18 +129,18 @@ public class Maze{
 
     */
     public int solve(){
-
-            //find the location of the S.
-
-
-            //erase the S
-
-
-            //and start solving at the location of the s.
-
-            //return solve(???,???);
-            return 1;
-
+      int r = 0;
+      int c = 0;
+      for (int i = 0; i < maze.length; i++){
+        for (int j = 0; j < maze[i].length; j++){
+          if (maze[i][j] == 'S'){
+            r = i;
+            c = j;
+            maze[i][j] = ' ';
+          }
+        }
+      }
+      return solve(r, c, 0);
     }
 
     /*
@@ -160,7 +160,7 @@ public class Maze{
 
         All visited spots that are part of the solution are changed to '@'
     */
-    private int solve(int row, int col){ //you can add more parameters since this is private
+    private int solve(int r, int c, int result){ //you can add more parameters since this is private
 
 
         //automatic animation! You are welcome.
@@ -169,11 +169,26 @@ public class Maze{
             clearTerminal();
             System.out.println(this);
 
-            wait(20);
+            wait(150);
         }
 
         //COMPLETE SOLVE
-
+        if (maze[r][c] == 'E'){
+          return result;
+        } else {
+          maze[r][c] = '@';
+        }
+        for (int i = 0; i < moves.length; i++){
+          int rowI = moves[i].x;
+          int colI = moves[i].y;
+          if (maze[r + rowI][c + colI] == ' ' || maze[r + rowI][c + colI] == 'E'){
+            int solvler = solve(r + rowI, c + colI, result + 1);
+            if (solvler != -1){
+              return solvler;
+            }
+          }
+        }
+        maze[r][c] = '.';
         return -1; //so it compiles
     }
 
