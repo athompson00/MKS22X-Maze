@@ -5,7 +5,6 @@ public class Maze{
     private Move[] moves = new Move[4];
     private char[][]maze;
     private boolean animate;//false by default
-    private Scanner file;
 
     private class Move{
       int x;
@@ -44,27 +43,34 @@ public class Maze{
     */
 
     public Maze(String filename) throws FileNotFoundException{
+      try{
         //COMPLETE CONSTRUCTOR
-          file = new Scanner(filename);
-          int a = -1;
-          while (file.hasNextLine()){
+          File greebler = new File(filename);
+          Scanner keebler = new Scanner(greebler);
+          int a = 0;
+          while (keebler.hasNextLine()){
             a++;
-            file.nextLine();
+            keebler.nextLine();
           }
-          file = new Scanner(filename);
-          String n = file.nextLine();
+          keebler = new Scanner(greebler);
+          String n = keebler.nextLine();
           int b = n.length();
           maze = new char[a][b];
           for (int i = 0; i < maze.length; i++){
             for (int j = 0; j < maze[0].length; j++){
               maze[i][j] = n.charAt(j);
             }
-            n = file.nextLine();
+            if (i != maze.length - 1){
+              n = keebler.nextLine();
+            }
           }
           moves[0] = new Move(1, 0);
           moves[1] = new Move(-1, 0);
           moves[2] = new Move(0, 1);
           moves[3] = new Move(0, -1);
+        } catch (FileNotFoundException e){
+          System.out.println("file does not exist");
+        }
     }
 
 
@@ -105,7 +111,7 @@ public class Maze{
     public String toString(){
       String result = "";
       for (int i = 0; i < maze.length; i++){
-        for (int j = 0; j < maze[0].length; j++){
+        for (int j = 0; j < maze[i].length; j++){
           result += maze[i][j];
         }
         result += "\n";
